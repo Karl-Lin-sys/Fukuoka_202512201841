@@ -125,4 +125,46 @@ class QLearningAgent:
             s = s2
             if s == self.env.grid.goal or done:
                 break
-        return path
+class MultiAgentQLearning:
+    def __init__(self, env: GridWorldEnv, num_agents: int = 3, alpha: float = 0.5, gamma: float = 0.95, epsilon: float = 0.1, seed: int = 456) -> None:
+        self.env = env
+        self.num_agents = num_agents
+        self.agents = [QLearningAgent(env, alpha, gamma, epsilon, seed + i) for i in range(num_agents)]
+        self.rng = random.Random(seed)
+
+    def train_agents(self, episodes: int = 500, max_steps_per_episode: int = 200) -> List[np.ndarray]:
+        Q_tables = []
+        for agent in self.agents:
+            Q = agent.train(episodes // self.num_agents, max_steps_per_episode)
+            Q_tables.append(Q)
+        # Share knowledge by averaging Q-tables
+        shared_Q = np.mean(Q_tables, axis=0)
+        for agent in self.agents:
+            agent.Q = shared_Q.copy()
+        return Q_tables
+
+    def derive_consensus_path(self, start: Optional[Coord] = None, max_steps: int = 500) -> List[Coord]:
+        if start is None:
+            start = self.env.grid.start
+        # Each agent derives a path, then vote on the consensus
+        paths = [agent.derive_greedy_path(start, max_steps) for agent in self.agents]
+        # Simple consensus: choose the most common next step at each position
+        consensus_path = [start]
+        current = start
+        for _ in range(max_steps):
+            next_positions = [path[i + 1] if i + 1 < len(path) else current for i, path in enumerate(paths)]
+            # Vote for most frequent next position
+            from collections import Counter
+            vote = Counter(next_positions).most_common(1)
+            if vote:
+                next_pos = vote[0][0]
+                if next_pos != current:
+                    consensus_path.append(next_pos)
+                    current = next_pos
+                else:
+                    break
+            else:
+                break
+            if current == self.env.grid.goal:
+                break
+        return consensus_path

@@ -5,7 +5,7 @@ This project is a compact, runnable capstone aligned with the doctoral programme
 It lives inside the `capstone/` subfolder to avoid interfering with your existing workspace.
 
 ## Structure
-- **AI/ML**: `capstone/cs_capstone/ml/q_learning.py`
+- **AI/ML**: `capstone/cs_capstone/ml/q_learning.py` (includes multi-agent Q-learning)
 - **Robotics**: `capstone/cs_capstone/robotics/astar.py`, `capstone/cs_capstone/robotics/grid_world.py`
 - **Computer Vision**: `capstone/cs_capstone/vision/color_detect.py`
 - **Security**: `capstone/cs_capstone/security/crypto_utils.py`
@@ -27,6 +27,9 @@ python -m cs_capstone.app plan
 
 # Q-learning navigation
 python -m cs_capstone.app qlearn
+
+# Multi-agent Q-learning (agentic workflow)
+python -m cs_capstone.app multi_qlearn
 
 # Computer vision color detection demo (outputs image)
 python -m cs_capstone.app vision
