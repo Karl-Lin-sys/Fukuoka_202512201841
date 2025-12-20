@@ -26,6 +26,7 @@ This will create a virtual environment, install dependencies, and launch the app
 ## Notes
 - No external services required.
 - Packages are pinned for reproducibility.
+- Applying to the 104 job [AI工程師 (job no. 8vdl8)](docs/job_application_8vdl8.md?plain=1) and need a quick brief? See `docs/job_application_8vdl8.md` for a Japanese summary that maps this portfolio to the posting’s requirements.
 
 ---
 
@@ -44,3 +45,5 @@ PowerShell でプロジェクト直下を開き、次を実行してください
 ```
 
 ブラウザでアプリが起動します。
+
+応募先（AI工程師 / 104 Job No. 8vdl8）との対応付け資料は [`docs/job_application_8vdl8.md`](docs/job_application_8vdl8.md?plain=1) を参照してください。
